@@ -1,4 +1,6 @@
 using Company.Data.Contexts;
+using Company.Repository.Interfaces;
+using Company.Repository.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace WebApplication1
@@ -16,7 +18,7 @@ namespace WebApplication1
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
-
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
