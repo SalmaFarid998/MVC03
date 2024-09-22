@@ -15,8 +15,15 @@ namespace Company.Web.Controllers
         public IActionResult Index()
         {
             var dept = _departmentService.GetAll();
+            return View(dept);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
             return View();
         }
+
+        [HttpPost]
         public IActionResult Create(Department department)
         {
             try
