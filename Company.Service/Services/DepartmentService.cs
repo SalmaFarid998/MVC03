@@ -20,19 +20,32 @@ namespace Company.Service.Services
 
         public IDepartmentRepository DepartmentRepository { get; }
 
-        public void Add(Department employee)
+        public void Add(Department entity)
         {
-            _departmentRepository.Add(employee);
+            _departmentRepository.Add(entity);
         }
 
-        public void Delete(Department employee)
+        public void Delete(Department entity)
         {
-            _departmentRepository.Delete(employee);
+            _departmentRepository.Delete(entity);
         }
 
-        public void Update(Department employee)
+        public void Update(Department entity)
         {
-            throw new NotImplementedException();
+            var dept = GetById(entity.Id);
+            if (dept.Name != entity.Name)
+            {
+                if (GetAll().Any(x => x.Name == entity.Name))
+                {
+                    throw new Exception("Duplicate Department Name");
+                }
+                else
+                {
+                    dept.Name = entity.Name;
+                    dept.Code = entity.Code;
+                    _departmentRepository.Update(dept);
+                }
+            }
         }
 
         public IEnumerable<Department> GetAll()
@@ -47,12 +60,19 @@ namespace Company.Service.Services
             {
                 return null;
             }
-            var dept = _departmentRepository.GetById(id.Value);
-            if (dept is null)
+            else
             {
-                return null;
+                var dept = _departmentRepository.GetById(id.Value);
+                if (dept is null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return dept;
+                }
             }
-            return dept;
         }
+            
     }
 }

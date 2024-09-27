@@ -47,19 +47,39 @@ namespace Company.Web.Controllers
 
         }
         [HttpGet]
-        public IActionResult Details(int? id)
+        public IActionResult Details(int? id,string viewname = "Details")
         {
             var dept = _departmentService.GetById(id);
-            
-                if (dept is null)
-                {
-                    return NotFound();
-                }
-                return View(dept);
+
+            if (dept is null)
+            {
+                return NotFound();
             }
-            
-            
+            else
+            {
+                return View(viewname, dept);
+            }
+        }
+        [HttpGet]  
+        public IActionResult Update(int? id)
+        {
+            return Details(id,"Update");
         }
 
+        [HttpPost]
+        public IActionResult Update(int? id,Department department)
+        {
+            if(department.Id != id.Value)
+            {
+                return RedirectToAction("NotFoundPage", null,"Home");
+            }
+            else
+            {
+                _departmentService.Update(department);
+                return RedirectToAction(nameof(Index));
+            }
+        }
+            
     }
+}
 
