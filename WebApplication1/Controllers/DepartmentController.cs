@@ -47,19 +47,74 @@ namespace Company.Web.Controllers
 
         }
         [HttpGet]
-        public IActionResult Details(int? id)
+        public IActionResult Details(int? id,string viewname = "Details")
         {
             var dept = _departmentService.GetById(id);
-            
-                if (dept is null)
-                {
-                    return NotFound();
-                }
-                return View(dept);
+
+            if (dept is null)
+            {
+                return NotFound();
             }
-            
-            
+            else
+            {
+                return View(viewname, dept);
+            }
+        }
+        [HttpGet]  
+        public IActionResult Update(int? id)
+        {
+            return Details(id,"Update");
         }
 
+        [HttpPost]
+        public IActionResult Update(int? id,Department department)
+        {
+            if(department.Id != id.Value)
+            {
+                return RedirectToAction("NotFoundPage", null,"Home");
+            }
+            else
+            {
+                _departmentService.Update(department);
+                return RedirectToAction(nameof(Index));
+            }
+        }
+        //Hard Delete
+        //[HttpPost]
+        //public IActionResult Delete(int? id)
+        //{
+        //    var dept = _departmentService.GetById(id);
+        //    if (dept is null) {
+        //        return RedirectToAction("NotFoundPage", null, "Home");
+        //    }
+        //    else
+        //    {
+        //        _departmentService.Delete(dept);
+        //        return RedirectToAction(nameof(Index));
+        //    }
+
+        //}
+
+        //SoftDelete
+        [HttpPost]
+        public IActionResult Delete(int? id)
+        {
+            var dept = _departmentService.GetById(id);
+            if (dept is null)
+            {
+                return RedirectToAction("NotFoundPage", null, "Home");
+            }
+            else
+            {
+                dept.IsDeleted = true;
+                _departmentService.Update(dept);
+                return RedirectToAction(nameof(Index));
+            }
+
+        }
+
+
+
     }
+}
 
