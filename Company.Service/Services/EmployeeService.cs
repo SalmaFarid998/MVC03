@@ -62,11 +62,7 @@ namespace Company.Service.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Employee> GetEmployeeByName(string name)
-        {
-            _unitOfWork.employeeRepository.GetEmployeeByName(name);
-
-        }
+        public IEnumerable<Employee> GetEmployeeByName(string name) => _unitOfWork.employeeRepository.GetEmployeeByName(name);
 
         public void Update(Employee employee)
         {

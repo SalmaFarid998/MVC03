@@ -15,10 +15,7 @@ namespace Company.Repository.Repositories
         public IDepartmentRepository departmentRepository { get ; set ; }
         public IEmployeeRepository employeeRepository { get; set; }
 
-        public int Complete()
-        {
-            _context.SaveChanges();
-        }
+        public int Complete() => _context.SaveChanges();
 
         public UnitOfWork(CompanyDbContext context)
         {
