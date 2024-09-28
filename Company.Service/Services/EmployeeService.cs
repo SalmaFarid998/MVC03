@@ -1,5 +1,6 @@
 ﻿using Company.Data.Models;
 using Company.Repository.Interfaces;
+using Company.Repository.Interfaces.Employee.DTO;
 using Company.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -11,33 +12,66 @@ namespace Company.Service.Services
 {
     public class EmployeeService : IEmployeeService
     {
-
-
-        private readonly IUnitOfWork _unitOfWork;
+                private readonly IUnitOfWork _unitOfWork;
 
         public EmployeeService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public void Add(Employee employee)
+        public void Add(EmployeeDto employeeDto)
         {
+            Employee employee = new Employee
+            {
+                Address = employeeDto.Address,
+                Age = employeeDto.Age,
+                DepartmentId = employeeDto.DepartmentId,
+                Email = employeeDto.Email,
+                HiringDate = employeeDto.HiringDate,
+                ImageURL = employeeDto.ImageURL,
+                Name = employeeDto.Name,
+                PhoneNumber = employeeDto.PhoneNumber,
+                Salary = employeeDto.Salary,
+            };
             _unitOfWork.employeeRepository.Add(employee);
             _unitOfWork.Complete();
         }
 
-        public void Delete(Employee employee)
+        public void Delete(EmployeeDto employeeDto)
         {
+            Employee employee = new Employee
+            {
+                Address = employeeDto.Address,
+                Age = employeeDto.Age,
+                DepartmentId = employeeDto.DepartmentId,
+                Email = employeeDto.Email,
+                HiringDate = employeeDto.HiringDate,
+                ImageURL = employeeDto.ImageURL,
+                Name = employeeDto.Name,
+                PhoneNumber = employeeDto.PhoneNumber,
+                Salary = employeeDto.Salary,
+            };
             _unitOfWork.employeeRepository.Delete(employee);
             _unitOfWork.Complete();
         }
 
-        public IEnumerable<Employee> GetAll()
+        public IEnumerable<EmployeeDto> GetAll()
         {
            var emp = _unitOfWork.employeeRepository.GetAll();
-            return emp;
+            var MappedEmployee = emp.Select(emp => new EmployeeDto
+            {
+                DepartmentId = emp.DepartmentId,
+                Address = emp.Address,
+                Salary = emp.Salary,
+                HiringDate = emp.HiringDate,
+                ImageURL = emp.ImageURL,
+                Name = emp.Name,
+                PhoneNumber = emp.PhoneNumber,
+                CreatedAt = emp.CreatedAt
+            });
+            return MappedEmployee;
         }
 
-        public Employee GetById(int? id)
+        public EmployeeDto GetById(int? id)
         {
             if (id is null)
             {
@@ -52,20 +86,49 @@ namespace Company.Service.Services
                 }
                 else
                 {
-                    return emp;
+                    EmployeeDto employeeDto = new EmployeeDto
+                    {
+                        Address = emp.Address,
+                        Age = emp.Age,
+                        DepartmentId = emp.DepartmentId,
+                        Email = emp.Email,
+                        HiringDate = emp.HiringDate,
+                        ImageURL = emp.ImageURL,
+                        Name = emp.Name,
+                        PhoneNumber = emp.PhoneNumber,
+                        Salary = emp.Salary,
+                    };
+                    return employeeDto;
                 }
             }
         }
 
-        public Employee GetById(int id)
+        public EmployeeDto GetById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Employee> GetEmployeeByName(string name) => _unitOfWork.employeeRepository.GetEmployeeByName(name);
+        public IEnumerable<EmployeeDto> GetEmployeeByName(string name) {
+            var emp = _unitOfWork.employeeRepository.GetEmployeeByName(name);
+            IEnumerable<EmployeeDto> employeeDto = new EmployeeDto
+            {
+                Address = emp.Address,
+                Age = emp.Age,
+                DepartmentId = emp.DepartmentId,
+                Email = emp.Email,
+                HiringDate = emp.HiringDate,
+                ImageURL = emp.ImageURL,
+                Name = emp.Name,
+                PhoneNumber = emp.PhoneNumber,
+                Salary = emp.Salary,
+            };
+            return employeeDto;
 
-        public void Update(Employee employee)
+        }
+
+        public void Update(EmployeeDto employee)
         {
+
             _unitOfWork.employeeRepository.Update(employee);
             _unitOfWork.Complete();
         }
