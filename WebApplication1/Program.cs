@@ -5,6 +5,7 @@ using Company.Repository.Repositories;
 using Company.Service.Interfaces;
 using Company.Service.Services;
 using Microsoft.EntityFrameworkCore;
+using Company.Service.Mapping;
 
 namespace WebApplication1
 {
@@ -26,6 +27,8 @@ namespace WebApplication1
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            builder.Services.AddAutoMapper(x=>x.AddProfile(new EmployeeProfile()));
             //builder.Services.AddScoped<IGenericRepository<Department>, GenericRepository<Department>>();
             //builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
             var app = builder.Build();

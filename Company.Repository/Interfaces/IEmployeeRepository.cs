@@ -11,6 +11,6 @@ namespace Company.Repository.Interfaces
     {
         public IEnumerable<Employee> GetEmployeeByName(string name);
         public IEnumerable<Employee> GetEmployeeByAddress(string address);
-
+        void Add(Data.Models.Employee employee);
     }
 }

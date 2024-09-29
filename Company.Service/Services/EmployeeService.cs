@@ -1,4 +1,5 @@
-﻿using Company.Data.Models;
+﻿using AutoMapper;
+using Company.Data.Models;
 using Company.Repository.Interfaces;
 using Company.Repository.Interfaces.Employee.DTO;
 using Company.Service.Interfaces;
@@ -14,42 +15,49 @@ namespace Company.Service.Services
     {
                 private readonly IUnitOfWork _unitOfWork;
 
-        public EmployeeService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public EmployeeService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
         public void Add(EmployeeDto employeeDto)
         {
-            Employee employee = new Employee
-            {
-                Address = employeeDto.Address,
-                Age = employeeDto.Age,
-                DepartmentId = employeeDto.DepartmentId,
-                Email = employeeDto.Email,
-                HiringDate = employeeDto.HiringDate,
-                ImageURL = employeeDto.ImageURL,
-                Name = employeeDto.Name,
-                PhoneNumber = employeeDto.PhoneNumber,
-                Salary = employeeDto.Salary,
-            };
+            //Employee employee = new Employee
+            //{
+            //    Address = employeeDto.Address,
+            //    Age = employeeDto.Age,
+            //    DepartmentId = employeeDto.DepartmentId,
+            //    Email = employeeDto.Email,
+            //    HiringDate = employeeDto.HiringDate,
+            //    ImageURL = employeeDto.ImageURL,
+            //    Name = employeeDto.Name,
+            //    PhoneNumber = employeeDto.PhoneNumber,
+            //    Salary = employeeDto.Salary,
+            //};
+            Employee employee = _mapper.Map<Employee>(employeeDto);
+
             _unitOfWork.employeeRepository.Add(employee);
             _unitOfWork.Complete();
         }
 
         public void Delete(EmployeeDto employeeDto)
         {
-            Employee employee = new Employee
-            {
-                Address = employeeDto.Address,
-                Age = employeeDto.Age,
-                DepartmentId = employeeDto.DepartmentId,
-                Email = employeeDto.Email,
-                HiringDate = employeeDto.HiringDate,
-                ImageURL = employeeDto.ImageURL,
-                Name = employeeDto.Name,
-                PhoneNumber = employeeDto.PhoneNumber,
-                Salary = employeeDto.Salary,
-            };
+            //Employee employee = new Employee
+            //{
+            //    Address = employeeDto.Address,
+            //    Age = employeeDto.Age,
+            //    DepartmentId = employeeDto.DepartmentId,
+            //    Email = employeeDto.Email,
+            //    HiringDate = employeeDto.HiringDate,
+            //    ImageURL = employeeDto.ImageURL,
+            //    Name = employeeDto.Name,
+            //    PhoneNumber = employeeDto.PhoneNumber,
+            //    Salary = employeeDto.Salary,
+            //};
+
+            Employee employee = _mapper.Map<Employee>(employeeDto);
             _unitOfWork.employeeRepository.Delete(employee);
             _unitOfWork.Complete();
         }
@@ -57,17 +65,19 @@ namespace Company.Service.Services
         public IEnumerable<EmployeeDto> GetAll()
         {
            var emp = _unitOfWork.employeeRepository.GetAll();
-            var MappedEmployee = emp.Select(emp => new EmployeeDto
-            {
-                DepartmentId = emp.DepartmentId,
-                Address = emp.Address,
-                Salary = emp.Salary,
-                HiringDate = emp.HiringDate,
-                ImageURL = emp.ImageURL,
-                Name = emp.Name,
-                PhoneNumber = emp.PhoneNumber,
-                CreatedAt = emp.CreatedAt
-            });
+
+            //var MappedEmployee = emp.Select(emp => new EmployeeDto
+            //{
+            //    DepartmentId = emp.DepartmentId,
+            //    Address = emp.Address,
+            //    Salary = emp.Salary,
+            //    HiringDate = emp.HiringDate,
+            //    ImageURL = emp.ImageURL,
+            //    Name = emp.Name,
+            //    PhoneNumber = emp.PhoneNumber,
+            //    CreatedAt = emp.CreatedAt
+            //});
+            IEnumerable<EmployeeDto> MappedEmployee = _mapper.Map<IEnumerable<EmployeeDto>>(emp);
             return MappedEmployee;
         }
 
@@ -86,18 +96,19 @@ namespace Company.Service.Services
                 }
                 else
                 {
-                    EmployeeDto employeeDto = new EmployeeDto
-                    {
-                        Address = emp.Address,
-                        Age = emp.Age,
-                        DepartmentId = emp.DepartmentId,
-                        Email = emp.Email,
-                        HiringDate = emp.HiringDate,
-                        ImageURL = emp.ImageURL,
-                        Name = emp.Name,
-                        PhoneNumber = emp.PhoneNumber,
-                        Salary = emp.Salary,
-                    };
+                    //EmployeeDto employeeDto = new EmployeeDto
+                    //{
+                    //    Address = emp.Address,
+                    //    Age = emp.Age,
+                    //    DepartmentId = emp.DepartmentId,
+                    //    Email = emp.Email,
+                    //    HiringDate = emp.HiringDate,
+                    //    ImageURL = emp.ImageURL,
+                    //    Name = emp.Name,
+                    //    PhoneNumber = emp.PhoneNumber,
+                    //    Salary = emp.Salary,
+                    //};
+                   EmployeeDto  employeeDto = _mapper.Map<EmployeeDto>(emp);
                     return employeeDto;
                 }
             }
@@ -110,19 +121,21 @@ namespace Company.Service.Services
 
         public IEnumerable<EmployeeDto> GetEmployeeByName(string name) {
             var emp = _unitOfWork.employeeRepository.GetEmployeeByName(name);
-            IEnumerable<EmployeeDto> employeeDto = new EmployeeDto
-            {
-                Address = emp.Address,
-                Age = emp.Age,
-                DepartmentId = emp.DepartmentId,
-                Email = emp.Email,
-                HiringDate = emp.HiringDate,
-                ImageURL = emp.ImageURL,
-                Name = emp.Name,
-                PhoneNumber = emp.PhoneNumber,
-                Salary = emp.Salary,
-            };
-            return employeeDto;
+            //IEnumerable<EmployeeDto> employeeDto = new EmployeeDto
+            //{
+            //    Address = emp.Address,
+            //    Age = emp.Age,
+            //    DepartmentId = emp.DepartmentId,
+            //    Email = emp.Email,
+            //    HiringDate = emp.HiringDate,
+            //    ImageURL = emp.ImageURL,
+            //    Name = emp.Name,
+            //    PhoneNumber = emp.PhoneNumber,
+            //    Salary = emp.Salary,
+            //};
+
+            IEnumerable<EmployeeDto> MappedEmployee = _mapper.Map<IEnumerable<EmployeeDto>>(emp);
+            return MappedEmployee;
 
         }
 
