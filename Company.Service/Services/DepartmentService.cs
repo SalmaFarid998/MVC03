@@ -38,7 +38,16 @@ namespace Company.Service.Services
 
         public void Delete(DepartmentDto entity)
         {
-            _unitOfWork.departmentRepository.Delete(entity);
+            Department dept = new Department
+            {
+                Name = entity.Name,
+                Code = entity.Code,
+                CreatedAt = DateTime.Now,
+                Id = entity.Id
+            };
+
+            _unitOfWork.departmentRepository.Delete(dept);
+            _unitOfWork.Complete();
         }
 
         public void Update(DepartmentDto entity)
@@ -63,7 +72,17 @@ namespace Company.Service.Services
         public IEnumerable<DepartmentDto> GetAll()
         {
             var dept = _unitOfWork.departmentRepository.GetAll().Where(x => x.IsDeleted != true);
-            return dept;
+
+            var MappedDepartment = dept.Select(x => new DepartmentDto
+            {
+                Code = x.Code,
+                Name = x.Name,
+                Id = x.Id
+
+            });
+
+
+            return MappedDepartment;
         }
 
         public DepartmentDto GetById(int? id)
@@ -81,7 +100,13 @@ namespace Company.Service.Services
                 }
                 else
                 {
-                    return dept;
+                    DepartmentDto MappedDepartment = new DepartmentDto
+                    {
+                        Code= dept.Code,
+                        Name= dept.Name,
+                        Id = dept.Id
+                    };
+                    return MappedDepartment;
                 }
             }
         }

@@ -1,8 +1,10 @@
 using Company.Data.Contexts;
 using Company.Data.Models;
+using Company.Service.Mapping;
 using Company.Repository.Interfaces;
 using Company.Repository.Repositories;
 using Company.Service.Interfaces;
+using Company.Service;
 using Company.Service.Services;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,6 +28,9 @@ namespace WebApplication1
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
             builder.Services.AddScoped<IEmployeeService, EmployeeService>();
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+            builder.Services.AddAutoMapper(x => x.AddProfile(new EmployeeProfile()));
             //builder.Services.AddScoped<IGenericRepository<Department>, GenericRepository<Department>>();
             //builder.Services.AddScoped<IGenericRepository<Employee>, GenericRepository<Employee>>();
             var app = builder.Build();
