@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Company.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Company.Data.Models
+namespace Company.Service.Dto
 {
-    public class Employee : BaseEntity
+    public class EmployeeDto
     {
         public string Name { get; set; }
         public int Age { get; set; }
@@ -16,7 +17,8 @@ namespace Company.Data.Models
         public string PhoneNumber { get; set; }
         public DateTime HiringDate { get; set; }
         public string? ImageURL { get; set; }
-        public Department? Department { get; set; }
+        public DepartmentDto? Department { get; set; }
         public int? DepartmentId { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 }
