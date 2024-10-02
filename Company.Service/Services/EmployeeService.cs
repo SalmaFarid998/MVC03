@@ -135,10 +135,10 @@ namespace Company.Service.Services
             return MappedEmployee;
         }
 
-        //public void Update(EmployeeDto employee)
-        //{
-        //    _unitOfWork.employeeRepository.Update(employee);
-        //    _unitOfWork.Complete();
-        //}
+        public void Update(EmployeeDto employee)
+        {
+            _unitOfWork.employeeRepository.Update(employee);
+            _unitOfWork.Complete();
+        }
     }
 }

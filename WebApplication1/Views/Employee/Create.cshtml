@@ -1,9 +1,10 @@
 ﻿@using Company.Data.Models
-@model Employee
+@using Company.Service.Dto
+@model EmployeeDto
 @{
     var departments = new SelectList(ViewBag.Departments, nameof(Department.Id), nameof(Department.Name));
 }
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <div class="form-group">
         <label class="col-form-label" asp-for="Name"></label>
         <input type="text" asp-for="Name" class="form-control"/>
@@ -39,12 +40,14 @@
 
         <option value="@departments"> -- SelectDepartment </option>
             </select>
-    </div> 
+    </div>
 
     <div class="form-group">
-        <label class="col-form-label" asp-for="ImageURL"></label>
-        <input type="file" asp-for="ImageURL" class="form-control-file" />
+        <label class="col-form-label" asp-for="Image"></label>
+        <input type="file" asp-for="Image" class="form-control-file" />
     </div>
+
+   
     <input type="submit" value="Create" class="btn btn-primary"/>
     <a asp-action="Index" class="btn btn-light">Back To List</a>
 </form>
