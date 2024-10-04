@@ -1,6 +1,7 @@
 ﻿@using Company.Data.Models
+@using Company.Service.Dto
 
-@model IEnumerable<Employee>
+@model IEnumerable<EmployeeDto>
 <h1>All Employees</h1>
 <br />
 <br />
@@ -24,6 +25,7 @@
                     <th>@Html.DisplayNameFor(D=>D.Name)</th>
                     <th>@Html.DisplayNameFor(D => D.Age)</th>
                     <th>@Html.DisplayNameFor(D => D.Address)</th>
+                    <th>@Html.DisplayNameFor(D => D.Image)</th>
                     @* <th>@Html.DisplayNameFor(D => D.Department)</th> *@
                     <th>@Html.DisplayNameFor(D => D.Salary)</th>
                     <th>@Html.DisplayNameFor(D => D.Email)</th>
@@ -42,6 +44,7 @@
                         <td>@Employee.Name</td>
                         <td>@Employee.Age</td>
                         <td>@Employee.Address</td>
+                        <td><img src="~/Files/Images/@Employee.ImageURL" height="40"/></td>
                         <td>@Html.DisplayFor(M=>Employee.Salary)</td>
                         <td>@Html.DisplayFor(M => Employee.Email)</td>
                         <td>@Employee.PhoneNumber</td>

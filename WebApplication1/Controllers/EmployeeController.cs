@@ -15,7 +15,7 @@ namespace Company.Web.Controllers
             _employeeService = employeeService;
             _departmentService = departmentService;
         }
-        [HttpGet]
+
         public IActionResult Index(string searchInp)
         {
             if (string.IsNullOrEmpty(searchInp))
