@@ -8,9 +8,11 @@ namespace Company.Web.Controllers
     public class AccountController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        public AccountController(UserManager<ApplicationUser> userManager)
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         [HttpGet]
@@ -45,6 +47,50 @@ namespace Company.Web.Controllers
                 }
             }
             return View(input);
+        }
+        [HttpGet]
+        public IActionResult SignIn()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> SignIn(LoginViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(model.Email);
+                if ( user is not null)
+                {
+                    if (await _userManager.CheckPasswordAsync(user, model.Password))
+                    {
+                        var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
+                        if (result.Succeeded) 
+                        {
+                            return RedirectToAction("Index", "Home");
+                        }
+                        else
+                        {
+
+                        }
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Invalid Login");
+                    return View(model);
+                }
+            }
+
+
+
+            return View(model);
+        }
+
+
+        public async Task<IActionResult> SignOut()
+        {
+            await _signInManager.SignOutAsync();  
+            return RedirectToAction(nameof(SignIn));
         }
     }
 }

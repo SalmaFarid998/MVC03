@@ -12,7 +12,7 @@ namespace Company.Web.Models
         [EmailAddress(ErrorMessage = "Invalid Email Format")]
         public string Email { get; set; }
         [Required(ErrorMessage = "Password is Required")]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$",ErrorMessage="Password must be at least 8 characters");
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,}$", ErrorMessage = "Password must be at least 8 characters")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Confirming Password is Required")]
         [Compare(nameof(Password),ErrorMessage ="Passwords don't match")]
