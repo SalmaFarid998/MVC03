@@ -67,7 +67,8 @@ namespace Company.Service.Services
                 {
                     dept.Name = entity.Name;
                     dept.Code = entity.Code;
-                    _unitOfWork.departmentRepository.Update(dept);
+                    var department = _mapper.Map<Department>(dept);
+                    _unitOfWork.departmentRepository.Update(department);
                     _unitOfWork.Complete();
                 }
             }

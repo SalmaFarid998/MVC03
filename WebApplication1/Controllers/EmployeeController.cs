@@ -1,5 +1,7 @@
-﻿using Company.Data.Models;
+﻿using AutoMapper;
+using Company.Data.Models;
 using Company.Repository.Interfaces;
+using Company.Service.Dto;
 using Company.Service.Interfaces;
 using Company.Service.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +12,12 @@ namespace Company.Web.Controllers
     {
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
-        public EmployeeController(IEmployeeService employeeService, IDepartmentService departmentService)
+        private readonly IMapper _mapper;
+        public EmployeeController(IEmployeeService employeeService, IDepartmentService departmentService, IMapper mapper)
         {
             _employeeService = employeeService;
             _departmentService = departmentService;
+            _mapper = mapper;
         }
 
         public IActionResult Index(string searchInp)
@@ -21,7 +25,7 @@ namespace Company.Web.Controllers
             if (string.IsNullOrEmpty(searchInp))
             {
                 var emp = _employeeService.GetAll();
-                ViewBag.Message = "This is meffafe";
+                ViewBag.Message = "This is message";
                 return View(emp);
             }
             else
@@ -38,12 +42,13 @@ namespace Company.Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(Employee employee)
+        public IActionResult Create(EmployeeDto employee)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
+
                     _employeeService.Add(employee);
                     return RedirectToAction(nameof(Index));
                 }
