@@ -13,7 +13,7 @@ namespace Company.Service.Helper
         {
             //var folderPath = @"D:\\Route\\Route Assignments\\C sharp\\MVC03\\WebApplication1\\wwwroot\\imgs\\";
 
-            var FolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwroot\\Files", folderName);
+            var FolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Files", folderName);
 
             var fileName = $"{Guid.NewGuid()}-{file.FileName}";
 
@@ -23,7 +23,7 @@ namespace Company.Service.Helper
 
             file.CopyTo(FileStream);
 
-            return FilePath;
+            return fileName;
         }
     }
 }

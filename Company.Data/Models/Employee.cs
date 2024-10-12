@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -17,8 +16,8 @@ namespace Company.Data.Models
         public string Email { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime HiringDate { get; set; }
-        [NotMapped]
-        public IFormFile Image { get; set; }
+        //[NotMapped]
+        //public IFormFile Image { get; set; }
         public string? ImageURL { get; set; }
         public Department? Department { get; set; }
         public int? DepartmentId { get; set; }

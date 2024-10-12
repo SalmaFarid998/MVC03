@@ -2,6 +2,7 @@
 using Company.Data.Models;
 using Company.Repository.Interfaces;
 using Company.Service.Dto;
+using Company.Service.Helper;
 using Company.Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace Company.Service.Services
             //    Salary = entityDto.Salary
             //};
             Employee employee = _mapper.Map<Employee>(entityDto);
-
+            employee.ImageURL = DocumentSettings.UploadFile(entityDto.Image,"Images");
 
             _unitOfWork.employeeRepository.Add(employee);
             _unitOfWork.Complete();
@@ -137,7 +138,8 @@ namespace Company.Service.Services
 
         public void Update(EmployeeDto employee)
         {
-            _unitOfWork.employeeRepository.Update(employee);
+            var emp = _mapper.Map<Employee>(employee);
+            _unitOfWork.employeeRepository.Update(emp);
             _unitOfWork.Complete();
         }
     }

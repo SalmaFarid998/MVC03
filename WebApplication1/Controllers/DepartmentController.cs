@@ -1,5 +1,7 @@
-﻿using Company.Data.Models;
+﻿using AutoMapper;
+using Company.Data.Models;
 using Company.Repository.Interfaces;
+using Company.Service.Dto;
 using Company.Service.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,9 +10,12 @@ namespace Company.Web.Controllers
     public class DepartmentController : Controller
     {
         private readonly IDepartmentService _departmentService;
-        public DepartmentController(IDepartmentService departmentService)
+        private readonly IMapper _mapper;
+        
+        public DepartmentController(IDepartmentService departmentService, IMapper mapper)
         {
             _departmentService = departmentService;
+            _mapper = mapper;
         }
         public IActionResult Index()
         {
@@ -30,7 +35,8 @@ namespace Company.Web.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _departmentService.Add(department);
+                    var dept = _mapper.Map<DepartmentDto>(department);
+                    _departmentService.Add(dept);
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -75,7 +81,8 @@ namespace Company.Web.Controllers
             }
             else
             {
-                _departmentService.Update(department);
+                var dept = _mapper.Map<DepartmentDto>(department);
+                _departmentService.Update(dept);
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -106,7 +113,7 @@ namespace Company.Web.Controllers
             }
             else
             {
-                dept.IsDeleted = true;
+                //dept.IsDeleted = true;
                 _departmentService.Update(dept);
                 return RedirectToAction(nameof(Index));
             }
