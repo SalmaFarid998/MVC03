@@ -19,8 +19,9 @@ namespace Company.Data.Contexts
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+           // modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ApplicationUser>().HasQueryFilter(x=>x.isActive==true);
 
 
         }
